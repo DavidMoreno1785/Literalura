@@ -102,10 +102,10 @@ public class Principal {
 
     private void obtenerLibrosRegistrados(){
         List<Libro> librosRegistrados =  libroRepository.findAll();
-        librosRegistrados.forEach(System.out::println);
+        librosRegistrados.forEach(Libro::mostrar);
     }
     private void obtenerAutoresRegistrados(){
         List<Autor> autoresRegistrados = autorRepository.findAll();
-        autoresRegistrados.forEach(System.out::println);
+        autoresRegistrados.forEach(Autor::mostrar);
     }
 }

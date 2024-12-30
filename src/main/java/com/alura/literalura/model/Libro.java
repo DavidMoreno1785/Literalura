@@ -17,15 +17,6 @@ public class Libro {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Autor> autores;
 
-    @Override
-    public String toString() {
-        return "Libro{" +
-                "titulo='" + titulo + '\'' +
-                ", idioma='" + idioma + '\'' +
-                ", cantidadDescargas=" + cantidadDescargas +
-                '}';
-    }
-
     public Libro(){}
 
     public Libro(DatosLibro datosLibro){
@@ -78,4 +69,14 @@ public class Libro {
        autores.forEach(autor -> autor.setLibros(List.of(this)));
        this.autores = autores;
     }
+
+    public void mostrar(){
+        System.out.println("----- LIBRO -----\n"  +
+                                   "Titulo: " + titulo + "\n" +
+                                   "Autor: " + autores.stream().map(autor -> autor.getNombre().replaceAll(",", "")).toList()+ "\n" +
+                                   "Idioma: " + idioma +  "\n" +
+                                   "Numero de descargas: " + cantidadDescargas +
+                                   "\n---------------\n");
+    }
 }
+

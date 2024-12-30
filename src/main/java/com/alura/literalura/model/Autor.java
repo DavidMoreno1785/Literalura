@@ -17,14 +17,6 @@ public class Autor {
     @ManyToMany(mappedBy = "autores", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Libro> libros;
 
-    @Override
-    public String toString() {
-        return "Autor{" +
-                "nombre='" + nombre + '\'' +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", fechaFallecimiento=" + fechaFallecimiento +
-                '}';
-    }
 
     public Autor(){}
 
@@ -77,5 +69,14 @@ public class Autor {
     public void addLibro(List<Libro> libros) {
        libros.forEach(libro -> libro.setAutores(List.of(this)));
        this.libros = libros;
+    }
+
+    public void mostrar(){
+        System.out.println( "----- AUTOR -----\n"  +
+                                    "Autor: " + nombre + "\n" +
+                                    "Libros: " + libros.stream().map(Libro::getTitulo).toList() + "\n" +
+                                    "Fecha de nacimiento: " + fechaNacimiento + "\n" +
+                                    "Fecha de fallecimiento: " + fechaFallecimiento +
+                                    "\n---------------\n");
     }
 }
