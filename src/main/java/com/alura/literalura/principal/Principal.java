@@ -31,6 +31,8 @@ public class Principal {
                                1- Buscar libro por titulo.
                                2- Listar libros registrados.
                                3- Listar autores registrados.
+                               4- Listas autores vivos en un determinado año.
+                               5- Obtener libros por idioma.
                                0- Salir.
                                """);
 
@@ -42,6 +44,8 @@ public class Principal {
                 case 1 -> obtenerLibroPorTitulo();
                 case 2 -> obtenerLibrosRegistrados();
                 case 3 -> obtenerAutoresRegistrados();
+                case 4 -> obtenerAutoresVivosEnUnDeterminadoAnio();
+                case 5 -> obtenerLibrosPorIdioma();
                 case 0 -> mostrarMenu = false;
             }
 
@@ -107,5 +111,38 @@ public class Principal {
     private void obtenerAutoresRegistrados(){
         List<Autor> autoresRegistrados = autorRepository.findAll();
         autoresRegistrados.forEach(Autor::mostrar);
+    }
+
+    private  void obtenerAutoresVivosEnUnDeterminadoAnio(){
+        System.out.println("Ingrese el año a buscar: ");
+        int anio = teclado.nextInt();
+        teclado.nextLine();
+        Optional<List<Autor>> autoresVivos =
+                autorRepository.buscarAutoresVivosPorAnio(anio);
+
+        autoresVivos.ifPresent(autors -> autors.forEach(Autor::mostrar));
+    }
+
+    private void obtenerLibrosPorIdioma(){
+        System.out.println("""
+        Ingrese el idioma a buscar:
+        - es: Español
+        - en: Inglés
+        - fr: Francés
+        - pt: Portugués
+        """);
+
+        String idioma = teclado.nextLine().toLowerCase();
+
+        Optional<List<Libro>> librosEncontrados = libroRepository.findByIdiomaEquals(idioma);
+
+        if (librosEncontrados.isPresent()){
+            if (librosEncontrados.get().isEmpty()){
+                System.out.println("No se encontraron libros en ese idioma.");
+            }else{
+                librosEncontrados.get().forEach(Libro::mostrar);
+            }
+        }
+
     }
 }
